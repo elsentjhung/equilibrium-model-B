@@ -1,0 +1,396 @@
+%% LyX 2.3.7 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[twocolumn,english,notitlepage]{revtex4-1}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\setcounter{secnumdepth}{3}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{babel}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Listing}
+
+\begin{document}
+\title{Equilibrium model B}
+\maketitle
+
+\section{Conserved Dynamics}
+
+Let us define $\phi(\mathbf{r},t)$ to be the rescaled density. The
+coarse-grained Hamiltonian can be written as:
+\begin{equation}
+\mathcal{H}[\phi]=\int_{V}d\mathbf{r}\left\{ \frac{a}{2}\phi^{2}+\frac{b}{4}\phi^{4}+\frac{\kappa}{2}|\nabla\phi|^{2}\right\} ,\label{eq:H}
+\end{equation}
+where $b,\kappa>0$ (otherwise the energy is not bounded from below).
+$a$ can be positive or negative. The dynamics then follows the conservation
+law:
+\begin{align}
+\frac{\partial\phi}{\partial t}+\nabla\cdot\mathbf{J} & =0\\
+\mathbf{J} & =-\lambda\nabla\frac{\delta\mathcal{H}}{\delta\phi}+\boldsymbol{\Lambda},\label{eq:J}
+\end{align}
+where $\lambda>0$. Correspondingly, the global density $\phi_{0}=\frac{1}{V}\int\phi\,d\mathbf{r}$
+is constant with time. $\boldsymbol{\Lambda}(\mathbf{r},t)$ in (\ref{eq:J})
+is Gaussian white noise with zero mean and Dirac delta-correlation:
+\begin{equation}
+\left\langle \Lambda_{\alpha}(\mathbf{r},t)\Lambda_{\beta}(\mathbf{r}',t')\right\rangle =2\lambda T\delta_{\alpha\beta}\delta(\mathbf{r}-\mathbf{r}')\delta(t-t').
+\end{equation}
+The noise correlation above satisfies FDT, which guarantees that the
+system will be in thermal equilibrium with a heat bath of temperature
+$T$ at steady state $t\rightarrow\infty$.
+
+The equilibrium state of the system depends on the values of $a$
+and $\phi_{0}$:
+\begin{itemize}
+\item $a>0$ or $a<0$ and $|\phi_{0}|>\sqrt{\frac{-a}{b}}$: homogenous
+state
+\item $a<0$ and $|\phi_{0}|<\sqrt{\frac{-a}{b}}$: phase separated state.
+\end{itemize}
+
+\section{Steady state statistics}
+
+In the steady state $t\rightarrow\infty$, and for a fixed value of
+$a$, the probability of obtaining some configuration $\phi(\mathbf{r})$,
+for any time $t$, is given by the Boltzmann distribution:
+\begin{equation}
+P_{s}[\phi(\mathbf{r})]=\frac{1}{\mathcal{Z}}e^{-\mathcal{H}[\phi(\mathbf{r})]/T},\label{eq:P-s}
+\end{equation}
+where $\mathcal{Z}$ is the partition function:
+\begin{equation}
+\mathcal{Z}=\int\mathcal{D}\phi\,e^{-\mathcal{H}[\phi]/T}.
+\end{equation}
+Note that the Hamiltonian $\mathcal{H}[\phi]$ is a fluctuating quantity
+since $\phi$ is a fluctuating field. To get the thermodynamic energy,
+we then have to average $\mathcal{H}[\phi]$ over the stationary distribution
+$P_{s}[\phi]$:
+\begin{equation}
+\left\langle \mathcal{H}\right\rangle _{s}=\int\mathcal{D}\phi\,\mathcal{H}[\phi]P_{s}[\phi],
+\end{equation}
+where in the above $\left\langle \dots\right\rangle _{s}$ indicates
+averaging over stationary distribution $P_{s}[\phi]$. Now the thermodynamic
+entropy of the system $\mathcal{S}$ is defined to be:
+\begin{align}
+\mathcal{S} & =-\left\langle \ln P_{s}\right\rangle _{s}.
+\end{align}
+Substituting (\ref{eq:P-s}) to the above equation, we then derive
+the \emph{total }free energy of the system:
+\begin{equation}
+\mathcal{F}=-T\ln\mathcal{Z}=\left\langle \mathcal{H}\right\rangle _{s}-T\mathcal{S}.\label{eq:F}
+\end{equation}
+Note that in some literature $\mathcal{H}$ is sometimes called the
+coarse-grained free energy and $\mathcal{F}$ is the \emph{total}
+free energy.
+
+\begin{widetext}
+
+\section{Gaussian approximation}
+
+Let us consider the equilibrium homogenous state. In steady state,
+we have an ensemble of different configurations $\phi(\mathbf{r})$'s
+from different time steps. Let us now write $\phi(\mathbf{r})$ as:
+\begin{equation}
+\phi(\mathbf{r})=\underbrace{\phi_{0}}_{\text{mean field}}+\underbrace{\delta\phi(\mathbf{r})}_{\text{fluctuations around mean field}},
+\end{equation}
+where $\delta\phi(\mathbf{r})$ is assumed to be small. Substituting
+the above into the Hamiltonian $\mathcal{H}[\phi]$, we get:
+\begin{align}
+\mathcal{H}[\phi] & =\int_{V}d\mathbf{r}\left\{ \frac{a}{2}(\phi_{0}+\delta\phi)^{2}+\frac{b}{4}(\phi_{0}+\delta\phi)^{4}+\frac{\kappa}{2}|\nabla\delta\phi|^{2}\right\} \\
+ & \simeq\int_{V}d\mathbf{r}\left\{ \frac{a}{2}(\phi_{0}^{2}+2\phi_{0}\delta\phi+\delta\phi^{2})+\frac{b}{4}(\phi_{0}^{4}+4\phi_{0}^{3}\delta\phi+6\phi_{0}^{2}\delta\phi^{2})+\frac{\kappa}{2}|\nabla\delta\phi|^{2}\right\} ,
+\end{align}
+where we have ignored higher order terms $\sim\delta\phi^{3}$. Now
+since $\phi$ is conserved, we must have $\int_{V}\delta\phi\,d\mathbf{r}=0$,
+and thus:
+\begin{equation}
+\mathcal{H}[\delta\phi]\simeq\underbrace{V\left(\frac{a}{2}\phi_{0}^{2}+\frac{b}{4}\phi_{0}^{4}\right)}_{\mathcal{H}_{0}}+\int_{V}d\mathbf{r}\left\{ \left(\frac{a}{2}+\frac{3b\phi_{0}^{2}}{2}\right)\delta\phi^{2}+\frac{\kappa}{2}|\nabla\delta\phi|^{2}\right\} .
+\end{equation}
+The first term $\mathcal{H}_{0}=$ constant is the mean field energy.
+Let us consider a $d$-dimenional box as our system. Now we can define
+the Fourier transform of $\delta\phi(\mathbf{r})$:
+\begin{align}
+\delta\phi(\mathbf{r}) & =\frac{1}{\sqrt{V}}\sum_{\mathbf{q}}\delta\phi_{\mathbf{q}}e^{i\mathbf{q}\cdot\mathbf{r}}\\
+\delta\phi_{\mathbf{q}} & =\frac{1}{\sqrt{V}}\int_{V}d\mathbf{r}\,\delta\phi(\mathbf{r})e^{-i\mathbf{q}\cdot\mathbf{r}},
+\end{align}
+where $V=L^{d}$ and 
+\begin{equation}
+q_{\alpha}=0,\pm\frac{2\pi}{L},\pm\frac{4\pi}{L},\pm\frac{6\pi}{L},\dots\quad\text{, where }\alpha=1,2,\dots,d.
+\end{equation}
+More succintly, we can also write:
+\[
+\mathbf{q}=\frac{2\pi}{L}\mathbf{n}\quad\text{, where }\mathbf{n}\in\mathbb{Z}^{d}.
+\]
+The Hamiltonian then becomes:
+\begin{align}
+\mathcal{H}\{\delta\phi_{\mathbf{q}}\} & =\mathcal{H}_{0}+\int_{V}d\mathbf{r}\left\{ \left(\frac{a}{2}+\frac{3b\phi_{0}^{2}}{2}\right)\frac{1}{V}\sum_{\mathbf{q},\mathbf{q}'}\delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}e^{i(\mathbf{q}+\mathbf{q})\cdot\mathbf{r}}+\frac{\kappa}{2}\frac{1}{V}\sum_{\mathbf{q},\mathbf{q}'}(i\mathbf{q})\cdot(i\mathbf{q}')\delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}e^{i(\mathbf{q}+\mathbf{q})\cdot\mathbf{r}}\right\} \\
+ & =\mathcal{H}_{0}+\sum_{\mathbf{q},\mathbf{q}'}\left(\frac{a}{2}+\frac{3b\phi_{0}^{2}}{2}\right)\delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\underbrace{\frac{1}{V}\int_{V}d\mathbf{r}e^{i(\mathbf{q}+\mathbf{q}')\cdot\mathbf{r}}}_{\delta_{\mathbf{q},-\mathbf{q}'}}+\sum_{\mathbf{q},\mathbf{q}'}\frac{\kappa}{2}(i\mathbf{q})\cdot(i\mathbf{q}')\delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\underbrace{\frac{1}{V}\int_{V}d\mathbf{r}e^{i(\mathbf{q}+\mathbf{q}')\cdot\mathbf{r}}}_{\delta_{\mathbf{q},\mathbf{q}'}}\\
+ & =\mathcal{H}_{0}+\frac{1}{2}\sum_{\mathbf{q}}\left(a+3b\phi_{0}^{2}+\kappa q^{2}\right)|\delta\phi_{\mathbf{q}}|^{2}
+\end{align}
+
+\end{widetext}
+
+To simplify the notation, let us define:
+\begin{equation}
+G(\mathbf{q})=\frac{a+3b\phi_{0}^{2}+\kappa q^{2}}{T},
+\end{equation}
+so that the stationary probability distribution becomes:
+\begin{align}
+P_{s}\{\delta\phi_{\mathbf{q}}\} & =\frac{1}{\mathcal{Z}}e^{-\frac{1}{2}\sum_{\mathbf{q}}G(\mathbf{q})|\delta\phi_{\mathbf{q}}|^{2}}\\
+\mathcal{Z} & =\left(\prod_{\mathbf{q}}\int d\delta\phi_{\mathbf{q}}\right)e^{-\frac{1}{2}\sum_{\mathbf{q}}G(\mathbf{q})|\delta\phi_{\mathbf{q}}|^{2}}
+\end{align}
+Note that since $\mathcal{H}_{0}=$ constant, we can absorb it inside
+$\mathcal{Z}$. Now we can compute $\mathcal{Z}$:
+\begin{align}
+\mathcal{Z} & =\left(\prod_{\mathbf{q}}\int d\delta\phi_{\mathbf{q}}\right)e^{-\frac{1}{2}\sum_{\mathbf{q}}G(\mathbf{q})|\delta\phi_{\mathbf{q}}|^{2}}\\
+ & =\prod_{\mathbf{q}}\left(\int d\delta\phi_{\mathbf{q}}\,e^{-\frac{1}{2}G(\mathbf{q})|\delta\phi_{\mathbf{q}}|^{2}}\right).
+\end{align}
+The integral inside the round bracket is a Gaussian integral over
+the two random variables: $\text{Re}(\delta\phi_{\mathbf{q}})$ and
+$\text{Im}(\delta\phi_{\mathbf{q}})$. However these two variables
+are not independent since $\delta\phi_{\mathbf{q}}=\delta\phi_{-\mathbf{q}}^{*}$,
+and effectively, this is just a one-dimensional Gaussian integral.
+Thus,
+\begin{equation}
+\mathcal{Z}=\prod_{\mathbf{q}}\sqrt{\frac{2\pi}{G(\mathbf{q})}}.
+\end{equation}
+In particular, we can calculate the total free energy:
+\begin{align}
+\mathcal{F} & =-T\ln\mathcal{Z}\\
+ & =-\frac{T}{2}\sum_{\mathbf{q}}\ln\left(\frac{2\pi}{G(\mathbf{q})}\right)\\
+ & \simeq-T\frac{V}{(2\pi)^{d}}\int_{0}^{q_{\text{max}}}dq\,\Omega_{d}q^{d-1}\ln\left(\frac{2\pi}{G(\mathbf{q})}\right),
+\end{align}
+where $\Omega_{d}$ is the solid angle in $d$-dimension:
+\begin{equation}
+\Omega_{d}=\frac{2\pi^{d/2}}{\Gamma(d/2)},
+\end{equation}
+and $q_{\text{max}}$ is the cutoff wavevector. Typically $q_{\text{max}}\simeq\pi/\Delta x$,
+where $\Delta x$ is the lattice size.
+
+\section{Spatial correlation}
+
+The spatial correlation function is defined to be:
+\begin{equation}
+C(\mathbf{r},\mathbf{r}')=\left\langle \delta\phi(\mathbf{r})\delta\phi(\mathbf{r}')\right\rangle .
+\end{equation}
+This measures the correlation of the density field at $\mathbf{r}$
+and $\mathbf{r}'$. Substituting the definition of Fourier transform,
+we get:
+\begin{equation}
+C(\mathbf{r},\mathbf{r}')=\frac{1}{V}\sum_{\mathbf{q},\mathbf{q}'}\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle e^{i\mathbf{q}\cdot\mathbf{r}}e^{i\mathbf{q}'\cdot\mathbf{r}'}.
+\end{equation}
+However, since we have translational symmetry, we must $C(\mathbf{r},\mathbf{r}')$
+only depends on $\mathbf{r}-\mathbf{r}'$, \emph{i.e.}, $C(\mathbf{r},\mathbf{r}')=C(\mathbf{r}-\mathbf{r}')$.
+Thus, $\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle $
+must have the following form:
+\begin{equation}
+\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle =\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle \delta_{\mathbf{q},-\mathbf{q}'}
+\end{equation}
+so that
+\begin{equation}
+C(\mathbf{r}-\mathbf{r}')=\frac{1}{V}\sum_{\mathbf{q}}\underbrace{\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle }_{S(\mathbf{q})}e^{i\mathbf{q}\cdot(\mathbf{r}-\mathbf{r}')}
+\end{equation}
+is a function of $\mathbf{r}-\mathbf{r}'$ only. $S(\mathbf{q})=\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle $,
+which is the Fourier transform of $C(\mathbf{r})$, is called the
+structure factor. 
+
+For Gaussian statistics,  the partition function can be written as:
+\begin{equation}
+\mathcal{Z}=\left(\prod_{\mathbf{q}}\int d\delta\phi_{\mathbf{q}}\right)e^{-\frac{1}{2}\sum_{\mathbf{q}}G(\mathbf{q})|\delta\phi_{\mathbf{q}}|^{2}}
+\end{equation}
+Now consider:
+\begin{align}
+\frac{1}{\mathcal{Z}}\frac{\partial\mathcal{Z}}{\partial G(\mathbf{q})} & =-\frac{1}{2}\left(\prod_{\mathbf{q}}\int d\delta\phi_{\mathbf{q}}\right)|\delta\phi_{\mathbf{q}}|^{2}\frac{1}{\mathcal{Z}}e^{-\frac{1}{2}\sum_{\mathbf{q}}G(\mathbf{q})|\delta\phi_{\mathbf{q}}|^{2}}\\
+ & =-\frac{1}{2}\left(\prod_{\mathbf{q}}\int d\delta\phi_{\mathbf{q}}\right)|\delta\phi_{\mathbf{q}}|^{2}P_{s}\{\delta\phi_{\mathbf{q}}\}\\
+ & =-\frac{1}{2}\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle .
+\end{align}
+Thus we obtain the formula for the structure factor from the partition
+function:
+\begin{equation}
+S(\mathbf{q})=\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle =-2\frac{\partial\ln\mathcal{Z}}{\partial G(\mathbf{q})}.
+\end{equation}
+Using the expression for $\ln\mathcal{Z}$, we compute above, we can
+find:
+\begin{align}
+S(\mathbf{q}) & =\frac{\partial}{\partial G(\mathbf{q})}\sum_{\mathbf{q}'}\ln\left(\frac{G(\mathbf{q}')}{2\pi}\right)\\
+ & =\frac{1}{G(\mathbf{q})}\\
+ & =\frac{T}{a+3b\phi_{0}^{2}+\kappa q^{2}}.
+\end{align}
+Let's consider $d=2$ as an example. The correlation function is then
+just the Fourier transform of $S(\mathbf{q})$:
+\begin{align}
+C(\mathbf{r}) & =\frac{1}{L^{2}}\sum_{\mathbf{q}}\frac{T}{a+3b\phi_{0}^{2}+\kappa q^{2}}e^{i\mathbf{q}\cdot\mathbf{r}}\\
+ & \simeq\frac{1}{(2\pi)^{2}}\int d\mathbf{q}\,\frac{T}{a+3b\phi_{0}^{2}+\kappa q^{2}}e^{i\mathbf{q}\cdot\mathbf{r}}.
+\end{align}
+Now we can change to polar coordinate, and without loss of generality,
+we can assume $\mathbf{r}$ to be pointing along $x$-axis, or $\mathbf{r}=r\hat{\mathbf{x}}$:
+\begin{align}
+C(\mathbf{r}) & =\frac{1}{(2\pi)^{2}}\int_{0}^{q_{\text{max}}}dq\int_{0}^{2\pi}d\theta\,q\frac{T}{a+3b\phi_{0}^{2}+\kappa q^{2}}e^{iqr\cos\theta}\\
+ & =\frac{1}{2\pi}\int_{0}^{q_{\text{max}}}dq\,\frac{Tq}{a+3b\phi_{0}^{2}+\kappa q^{2}}J_{0}(qr)\\
+ & =\frac{T}{2\pi\kappa}\int_{0}^{q_{\text{max}}\xi}d(q\xi)\,\frac{q\xi}{1+(q\xi)^{2}}J_{0}\left(q\xi\frac{r}{\xi}\right)
+\end{align}
+where $J_{n}(x)$ is the Bessel function of first kind, and we have
+introduced the correlation length:
+\[
+\xi=\sqrt{\frac{\kappa}{a+3b\phi_{0}^{2}}}.
+\]
+The correlation is infinite at the critical point $a=\phi_{0}=0$.
+Now we are interested in the behaviour $r\gg\xi$ or $q\xi\ll1$,
+we get:
+\[
+C(r)\simeq\frac{T}{2\pi\kappa}\int_{0}^{q_{\text{max}}\xi}d(q\xi)\,q\xi J_{0}\left(q\xi\frac{r}{\xi}\right)
+\]
+
+
+\section{Numerical simulations}
+
+Let's consider $d=1$ system for now. The generalization to higher
+dimension is straightforward. The equation we are solving is:
+\begin{equation}
+\frac{\partial\phi}{\partial t}=M\frac{\partial^{2}}{\partial x^{2}}\left(\frac{\delta\mathcal{H}}{\delta\phi}\right)+\sqrt{2MT}\frac{\partial}{\partial x}\Lambda(x,t),
+\end{equation}
+where $\Lambda(x,t)$ is Gaussian white noise with mean and variance:
+\begin{align}
+\left\langle \Lambda(x,t)\right\rangle  & =0\\
+\left\langle \Lambda(x,t)\Lambda(x',t')\right\rangle  & =\delta(x-x')\delta(t-t').
+\end{align}
+In computer simulations, the space $x$ is discretized into lattice
+with step size $\Delta x$:
+\begin{equation}
+x=i\Delta x\text{, where }i=0,1,2,\dots N_{x}-1,
+\end{equation}
+where $N_{x}$ is the total number of lattice sites. The system size
+is then $L=N_{x}\Delta x$. Similarly, time is also discretized into:
+\begin{equation}
+t\rightarrow n\Delta t\text{, where }n=0,1,2,\dots,N_{t}-1,
+\end{equation}
+where $N_{t}$ is the total number of timesteps we are running the
+simulation for. Consequently, the density field and the noise current
+become:
+\begin{align}
+\phi(x,t) & \rightarrow\phi_{i}^{n}\\
+\Lambda(x,t) & \rightarrow\Lambda_{i}^{n}
+\end{align}
+Next we need to regularize the Dirac delta function:
+\begin{align}
+\delta(x-x') & \rightarrow\frac{\delta_{i,i'}}{\Delta x}\\
+\delta(t-t') & \rightarrow\frac{\delta_{n,n'}}{\Delta t}.
+\end{align}
+Thus we need to define a new noise:
+\[
+\tilde{\Lambda}_{i}^{n}=\sqrt{\Delta x\Delta t}\Lambda_{i}^{n},
+\]
+so that the correlation for this new noise is just a Kronecker delta:
+\begin{equation}
+\left\langle \tilde{\Lambda}_{i}^{n}\tilde{\Lambda}_{j}^{m}\right\rangle =\delta_{mn}\delta_{ij}.
+\end{equation}
+
+Recall the Hamiltonian functional:
+\begin{equation}
+\mathcal{H}[\phi]=\int_{0}^{L}dx\left\{ f(\phi)+\frac{\kappa}{2}\left(\frac{\partial\phi}{\partial x}\right)^{2}\right\} ,
+\end{equation}
+where $f(\phi)=\frac{a}{2}\phi^{2}+\frac{b}{4}\phi^{4}$. In discrete
+space, the gradient operator becomes:
+\begin{equation}
+\frac{\partial\phi}{\partial x}\rightarrow\frac{\phi_{i+1}-\phi_{i-1}}{2\Delta x}+\mathcal{O}(\Delta x^{2}).
+\end{equation}
+Therefore, the Hamiltonian functional becomes:
+\begin{align}
+\mathcal{H}[\phi] & \rightarrow\mathcal{H}\{\phi_{i}\}\\
+ & =\sum_{i=1}^{N_{x}-1}\Delta x\left\{ f(\phi_{i})+\frac{\kappa}{2}\left(\frac{\phi_{i+1}-\phi_{i-1}}{2\Delta x}\right)^{2}\right\} \\
+ & =\sum_{i=1}^{N_{x}-1}\Delta x\left\{ f(\phi_{i})+\frac{\kappa}{8\Delta x^{2}}\left(\phi_{i+1}^{2}-2\phi_{i+1}\phi_{i-1}+\phi_{i-1}^{2}\right)\right\} 
+\end{align}
+The functional derivative in discrete space is defined to be (for
+$d=1$):
+\begin{align}
+\frac{\delta\mathcal{H}}{\delta\phi} & \rightarrow\frac{1}{\Delta x}\frac{\partial\mathcal{H}}{\partial\phi_{i}}\\
+ & =\frac{\partial}{\partial\phi_{i}}\sum_{j=1}^{N_{x}-1}\left\{ f(\phi_{j})+\frac{\kappa}{8\Delta x^{2}}\left(\phi_{j+1}^{2}-2\phi_{j+1}\phi_{j-1}+\phi_{j-1}^{2}\right)\right\} \\
+ & =\sum_{j=1}^{N_{x}-1}\left\{ f'(\phi_{j})\delta_{ij}+\frac{\kappa}{8\Delta x^{2}}\left(2\phi_{j+1}\delta_{i,j+1}-2\phi_{j+1}\delta_{i,j-1}-2\phi_{j-1}\delta_{i,j+1}+2\phi_{j-1}\delta_{i,j-1}\right)\right\} \\
+ & =f'(\phi_{i})+\frac{\kappa}{4\Delta x^{2}}(\phi_{i}-\phi_{i+2}-\phi_{i-2}+\phi_{i})\\
+ & =f'(\phi_{i})-\kappa\left(\frac{\phi_{i+2}-2\phi_{i}+\phi_{i-2}}{4\Delta x^{2}}\right).
+\end{align}
+Now if we recall the continuum version of functional derivative,
+\begin{equation}
+\frac{\delta\mathcal{H}}{\delta\phi}=f'(\phi)-\kappa\frac{\partial^{2}\phi}{\partial x^{2}},
+\end{equation}
+the Laplacian operator should then be equal to:
+\begin{equation}
+\frac{\partial^{2}\phi}{\partial x^{2}}\rightarrow\frac{\phi_{i+2}-2\phi_{i}+\phi_{i-2}}{4\Delta x^{2}}+\mathcal{O}(\Delta x).
+\end{equation}
+Notice that the second derivative skips a lattice site, compared to
+the first derivative.
+
+Now putting everything together, the discretized dynamics has become:
+\begin{align}
+\phi_{i}^{n+1} & =\phi_{i}^{n}+\Delta t\,\frac{M}{4\Delta x^{3}}\left(\frac{\partial\mathcal{H}}{\partial\phi_{i+2}^{n}}-\frac{\partial\mathcal{H}}{\partial\phi_{i}^{n}}+\frac{\partial\mathcal{H}}{\partial\phi_{i-2}^{n}}\right)+\sqrt{\Delta t}\sqrt{\frac{MT}{2\Delta x^{3}}}(\tilde{\Lambda}_{i+1}^{n}-\tilde{\Lambda}_{i-1}^{n})
+\end{align}
+where $\{\tilde{\Lambda}_{i}^{n}\}$ are a set of independent Gaussian
+random variables with zero mean and unit variance. Taking the limit
+of continuous time, we can write the above equation as:
+\begin{equation}
+\frac{\partial\phi_{i}}{\partial t}=-\Gamma_{ij}\frac{\partial\mathcal{H}}{\partial\phi_{j}^{n}}+g_{ij}\tilde{\Lambda}_{j},
+\end{equation}
+where
+\begin{align}
+\Gamma_{ij} & =\frac{M}{4\Delta x^{3}}(2\delta_{i,j}-\delta_{i,j-2}-\delta_{i,j+2})\\
+g_{ij} & =\sqrt{\frac{MT}{2\Delta x^{3}}}(\delta_{i,j-1}-\delta_{i,j+1}).
+\end{align}
+Now we can verify FDT
+\begin{align}
+g_{ik}g_{jk} & =\frac{MT}{2\Delta x^{3}}(\delta_{i,k-1}-\delta_{i,k+1})(\delta_{j,k-1}-\delta_{j,k+1})\\
+ & =\frac{MT}{2\Delta x^{3}}(\delta_{i,j}+\delta_{i,j}-\delta_{i,j+2}-\delta_{i,j-2})\\
+ & =2\Gamma_{ij}T,
+\end{align}
+or $gg^{T}=g^{T}g=2\Gamma T$.
+
+For $d=2$ dimension, the spatial coordinates are:
+\begin{align}
+x & \rightarrow i\Delta x\text{, where }i=0,1,2,\dots,N_{x}-1\\
+y & \rightarrow j\Delta y\text{, where }j=0,1,2,\dots,N_{y}-1,
+\end{align}
+The discretized Langevin equation is:
+\begin{equation}
+\phi_{ij}^{n+1}=\phi_{ij}+\Delta tM\nabla^{2}\mu_{ij}^{n}+\sqrt{\Delta t}\sqrt{\frac{2MT}{\Delta x\Delta y}}\nabla\cdot\boldsymbol{\Lambda}_{ij}^{n},
+\end{equation}
+where the gradient and Laplacian operator are:
+\begin{align}
+\frac{\partial\phi_{ij}}{\partial x} & =\frac{\phi_{i+1,j}-\phi_{i-1,j}}{2\Delta x}+\mathcal{O}(\Delta x^{2})\\
+\frac{\partial\phi_{ij}}{\partial y} & =\frac{\phi_{i,j+1}-\phi_{i,j-1}}{2\Delta y}+\mathcal{O}(\Delta y^{2})\\
+\nabla^{2}\phi_{ij} & =\frac{\phi_{i+2,j}-2\phi_{ij}+\phi_{i-2,j}}{4\Delta x^{2}}+\frac{\phi_{i,j+2}-2\phi_{ij}+\phi_{i,j-2}}{4\Delta y^{2}}+\mathcal{O}(\Delta x).
+\end{align}
+In Numpy, $\phi$ is represented as an array:
+\begin{align*}
+\phi & =\underset{}{}\left(\begin{array}{cccc}
+\phi_{00} & \phi_{01} & \dots & \phi_{0,N_{y}-1}\\
+\phi_{10} & \phi_{11} &  & \phi_{1,N_{y}-1}\\
+\vdots &  & \ddots & \vdots\\
+\phi_{N_{x}-1,0} & \phi_{N_{x}-1,1} & \dots & \phi_{N_{x}-1,N_{y}-1}
+\end{array}\right)\downarrow x\text{-direction}\\
+ & \quad\quad\quad\quad\quad\longrightarrow y\text{-direction}
+\end{align*}
+
+
+\section{Using fast Fourier transform in Numpy}
+
+The method to perform a $2$-dimensional discrete Fourier transform
+on the array phi and save it to another array phi\_q is:
+\begin{lstlisting}
+phi_q = numpy.fft.fft2(phi, norm='ortho')
+\end{lstlisting}
+The discrete Fourier transform in Numpy is defined to be:
+\begin{align}
+\phi(\mathbf{r}) & =\frac{1}{\sqrt{N_{x}N_{y}}}\sum_{\mathbf{q}}\phi_{\mathbf{q}}e^{i\mathbf{q}\cdot\mathbf{r}}\quad\text{(inverse Fourier transform)}\\
+\phi_{\mathbf{q}} & =\frac{1}{\sqrt{N_{x}N_{y}}}\sum_{\mathbf{r}}\phi(\mathbf{r})e^{-i\mathbf{q}\cdot\mathbf{r}}\quad\text{(forward Fourier transform)}.
+\end{align}
+But we want:
+\begin{align}
+\phi(\mathbf{r}) & =\frac{1}{\sqrt{L_{x}L_{y}}}\sum_{\mathbf{q}}\phi_{\mathbf{q}}e^{i\mathbf{q}\cdot\mathbf{r}}\\
+\phi_{\mathbf{q}} & =\frac{1}{\sqrt{L_{x}L_{y}}}\underbrace{\sum_{\mathbf{r}}\Delta x\Delta y}_{\int d\mathbf{r}}\,\phi(\mathbf{r})e^{-i\mathbf{q}\cdot\mathbf{r}}.
+\end{align}
+so we need to multiply the forward Fourier transform in Numpy by $\sqrt{\Delta x\Delta y}$
+and divide the inverse Fourier transform in Numpy by $\sqrt{\Delta x\Delta y}$.
+Also note that the array $\phi_{q}$ is arranged in a peculiar way
+in Numpy:
+\[
+\phi_{q}=\underbrace{\begin{array}{|c|c|c|c|c|c|c|c|c|}
+\hline \phi_{0} & \phi_{\frac{2\pi}{L}} & \phi_{\frac{2\pi(2)}{L}} & \dots & \phi_{\frac{2\pi(N/2-1)}{L}} & \phi_{\frac{2\pi(-N/2)}{L}} & \phi_{\frac{2\pi(-N/2+1)}{L}} & \dots & \phi_{\frac{2\pi(-1)}{L}}\\\hline \end{array}}_{\text{total length}=N}
+\]
+So we also need to roll the elements of the array to the right by
+$N/2$.
+\end{document}
