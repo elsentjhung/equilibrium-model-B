@@ -1068,23 +1068,6 @@ Using fast Fourier transform in Numpy
 \end_layout
 
 \begin_layout Standard
-The 
-\begin_inset Formula $1$
-\end_inset
-
--dimensional discrete Fourier transform in Numpy is defined to be:
-\begin_inset Formula 
-\begin{align*}
-\phi_{i} & =\frac{1}{\sqrt{N}}\sum_{p=-N/2}^{N/2-1}\phi_{q}e^{iqx}\\
-\phi_{q} & =\frac{1}{\sqrt{N}}\sum_{i=0}^{N-1}\phi_{i}e^{iqx}
-\end{align*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 The method to perform a 
 \begin_inset Formula $2$
 \end_inset
@@ -1147,6 +1130,43 @@ So we also need to roll the elements of the array to the right by
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Section
+Pseudo-spectral simulation
+\end_layout
+
+\begin_layout Standard
+The equation we are solving is:
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\phi}{\partial t}=Ma\nabla^{2}\phi+Mb\nabla^{2}\phi^{3}-M\kappa\nabla^{4}\phi+\sqrt{2MT}\nabla\cdot\boldsymbol{\Lambda}
+\end{equation}
+
+\end_inset
+
+Taking Fourier transform, we get:
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\phi_{\mathbf{q}}}{\partial t}=-\left(Maq^{2}+M\kappa q^{4}\right)\phi_{\mathbf{q}}-Mbq^{2}\mathcal{F}[\phi^{3}]_{\mathbf{q}}+\sqrt{2MT}\mathcal{F}[\nabla\cdot\boldsymbol{\Lambda}]_{\mathbf{q}}.
+\end{equation}
+
+\end_inset
+
+The algorithm will be:
+\begin_inset Formula 
+\[
+\begin{array}{c|c|c}
+\text{Real space} & \longleftrightarrow & \text{Fourier space}\\
+\hline \text{calculate }\phi\text{, }\phi^{3}\text{ and }\nabla\cdot\boldsymbol{\Lambda} & \underset{\text{forward FFT}}{\longrightarrow} & \phi_{\mathbf{q}}\text{, }\mathcal{F}[\phi^{3}]_{\mathbf{q}}\text{ and }\mathcal{F}[\nabla\cdot\boldsymbol{\Lambda}]_{\mathbf{q}}\\
+ &  & \text{update }\downarrow\text{ timestep}\\
+\text{get }\phi\text{ at the next timestep} & \underset{\text{inverse FFT}}{\longleftarrow} & \phi_{\mathbf{q}}\text{ at the next timestep}
+\end{array}
+\]
+
+\end_inset
+
+
 \end_layout
 
 \end_body
