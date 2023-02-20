@@ -1111,7 +1111,7 @@ In particular, for
  case,
 \begin_inset Formula 
 \[
-\left\langle A\right\rangle _{s}=\frac{L^{2}}{2\pi}\int_{0}^{q_{\text{max}}}dq\,q\frac{T}{a+3b\phi_{0}^{2}+\kappa q^{2}}
+\left\langle A\right\rangle _{s}=\frac{L^{2}}{2\pi}\int_{0}^{q_{\text{max}}}dq\,\frac{Tq}{a+3b\phi_{0}^{2}+\kappa q^{2}}
 \]
 
 \end_inset

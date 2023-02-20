@@ -1116,6 +1116,18 @@ In particular, for
 
 \end_inset
 
+Taking the limit 
+\begin_inset Formula $q_{\text{max}}\rightarrow\infty$
+\end_inset
+
+ as an approximation, we get:
+\begin_inset Formula 
+\[
+\left\langle A\right\rangle _{s}=\frac{L^{2}}{2\pi}
+\]
+
+\end_inset
+
 
 \end_layout
 
