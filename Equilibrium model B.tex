@@ -167,26 +167,26 @@ where $\Delta x$ is the lattice size.
 
 The spatial correlation function is defined to be:
 \begin{equation}
-C(\mathbf{r},\mathbf{r}')=\left\langle \delta\phi(\mathbf{r})\delta\phi(\mathbf{r}')\right\rangle .
+C(\mathbf{r},\mathbf{r}')=\left\langle \delta\phi(\mathbf{r})\delta\phi(\mathbf{r}')\right\rangle _{s}.
 \end{equation}
 This measures the correlation of the density field at $\mathbf{r}$
 and $\mathbf{r}'$. Substituting the definition of Fourier transform,
 we get:
 \begin{equation}
-C(\mathbf{r},\mathbf{r}')=\frac{1}{V}\sum_{\mathbf{q},\mathbf{q}'}\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle e^{i\mathbf{q}\cdot\mathbf{r}}e^{i\mathbf{q}'\cdot\mathbf{r}'}.
+C(\mathbf{r},\mathbf{r}')=\frac{1}{V}\sum_{\mathbf{q},\mathbf{q}'}\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle _{s}e^{i\mathbf{q}\cdot\mathbf{r}}e^{i\mathbf{q}'\cdot\mathbf{r}'}.
 \end{equation}
 However, since we have translational symmetry, we must $C(\mathbf{r},\mathbf{r}')$
 only depends on $\mathbf{r}-\mathbf{r}'$, \emph{i.e.}, $C(\mathbf{r},\mathbf{r}')=C(\mathbf{r}-\mathbf{r}')$.
-Thus, $\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle $
+Thus, $\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle _{s}$
 must have the following form:
 \begin{equation}
-\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle =\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle \delta_{\mathbf{q},-\mathbf{q}'}
+\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle _{s}=\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle _{s}\delta_{\mathbf{q},-\mathbf{q}'}
 \end{equation}
 so that
 \begin{equation}
-C(\mathbf{r}-\mathbf{r}')=\frac{1}{V}\sum_{\mathbf{q}}\underbrace{\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle }_{S(\mathbf{q})}e^{i\mathbf{q}\cdot(\mathbf{r}-\mathbf{r}')}
+C(\mathbf{r}-\mathbf{r}')=\frac{1}{V}\sum_{\mathbf{q}}\underbrace{\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle _{s}}_{S(\mathbf{q})}e^{i\mathbf{q}\cdot(\mathbf{r}-\mathbf{r}')}
 \end{equation}
-is a function of $\mathbf{r}-\mathbf{r}'$ only. $S(\mathbf{q})=\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle $,
+is a function of $\mathbf{r}-\mathbf{r}'$ only. $S(\mathbf{q})=\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle _{s}$,
 which is the Fourier transform of $C(\mathbf{r})$, is called the
 structure factor. 
 
@@ -203,7 +203,7 @@ Now consider:
 Thus we obtain the formula for the structure factor from the partition
 function:
 \begin{equation}
-S(\mathbf{q})=\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle =-2\frac{\partial\ln\mathcal{Z}}{\partial G(\mathbf{q})}.
+S(\mathbf{q})=\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle _{s}=-2\frac{\partial\ln\mathcal{Z}}{\partial G(\mathbf{q})}.
 \end{equation}
 Using the expression for $\ln\mathcal{Z}$, we compute above, we can
 find:
@@ -365,6 +365,29 @@ In Numpy, $\phi$ is represented as an array:
  & \quad\quad\quad\quad\quad\longrightarrow y\text{-direction}
 \end{align*}
 
+In simulation, it might be useful to track some macroscopic quantity
+to check whether the simulation has reached a steady state or not.
+For instance, we may measure the global average of the fluctuations
+squared:
+\[
+A(t)=\frac{1}{V}\int_{V}\delta\phi(\mathbf{r},t)^{2}\,d\mathbf{r}
+\]
+In steady state, $\left\langle A\right\rangle _{s}$ Using the definition
+of Fourier transform, we get:
+\begin{align*}
+A(t) & =\frac{1}{V}\int_{V}\sum_{\mathbf{q},\mathbf{q}'}\delta\phi_{\mathbf{q}}(t)\delta\phi_{\mathbf{q}'}(t)e^{i(\mathbf{q}+\mathbf{q}')\cdot\mathbf{r}}\,d\mathbf{r}\\
+ & =\sum_{\mathbf{q}}|\delta\phi_{\mathbf{q}}|^{2}\\
+ & \simeq\sum_{\mathbf{q}}S(q)
+\end{align*}
+Now we put the expression for the structure factor:
+\begin{align*}
+A(t) & =\sum_{\mathbf{q}}\frac{T}{a+3b\phi_{0}^{2}+\kappa q^{2}}\\
+ & \simeq\frac{V}{(2\pi)^{d}}\int_{0}^{q_{\text{max}}}dq\,\Omega_{d}q^{d-1}\frac{T}{a+3b\phi_{0}^{2}+\kappa q^{2}}
+\end{align*}
+In particular, for $d=2$ case,
+\[
+\]
+
 
 \section{Using fast Fourier transform in Numpy}
 
@@ -402,13 +425,13 @@ The equation we are solving is:
 \end{equation}
 Taking Fourier transform, we get:
 \begin{equation}
-\frac{\partial\phi_{\mathbf{q}}}{\partial t}=-\left(Maq^{2}+M\kappa q^{4}\right)\phi_{\mathbf{q}}-Mbq^{2}\mathcal{F}[\phi^{3}]_{\mathbf{q}}+\sqrt{2MT}\mathcal{F}[\nabla\cdot\boldsymbol{\Lambda}]_{\mathbf{q}}.
+\frac{\partial\phi_{\mathbf{q}}}{\partial t}=-\left(Maq^{2}+M\kappa q^{4}\right)\phi_{\mathbf{q}}-Mbq^{2}\mathcal{F}[\phi^{3}]_{\mathbf{q}}+\sqrt{2MT}i\mathbf{q}\cdot\boldsymbol{\Lambda}_{\mathbf{q}}.
 \end{equation}
 The algorithm will be:
 \[
 \begin{array}{c|c|c}
 \text{Real space} & \longleftrightarrow & \text{Fourier space}\\
-\hline \text{calculate }\phi\text{, }\phi^{3}\text{ and }\nabla\cdot\boldsymbol{\Lambda} & \underset{\text{forward FFT}}{\longrightarrow} & \phi_{\mathbf{q}}\text{, }\mathcal{F}[\phi^{3}]_{\mathbf{q}}\text{ and }\mathcal{F}[\nabla\cdot\boldsymbol{\Lambda}]_{\mathbf{q}}\\
+\hline \text{calculate }\phi\text{, }\phi^{3}\text{ and }\boldsymbol{\Lambda} & \underset{\text{forward FFT}}{\longrightarrow} & \phi_{\mathbf{q}}\text{, }\mathcal{F}[\phi^{3}]_{\mathbf{q}}\text{ and }\boldsymbol{\Lambda}_{\mathbf{q}}\\
  &  & \text{update }\downarrow\text{ timestep}\\
 \text{get }\phi\text{ at the next timestep} & \underset{\text{inverse FFT}}{\longleftarrow} & \phi_{\mathbf{q}}\text{ at the next timestep}
 \end{array}

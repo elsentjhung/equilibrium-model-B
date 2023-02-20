@@ -590,7 +590,7 @@ Spatial correlation
 The spatial correlation function is defined to be:
 \begin_inset Formula 
 \begin{equation}
-C(\mathbf{r},\mathbf{r}')=\left\langle \delta\phi(\mathbf{r})\delta\phi(\mathbf{r}')\right\rangle .
+C(\mathbf{r},\mathbf{r}')=\left\langle \delta\phi(\mathbf{r})\delta\phi(\mathbf{r}')\right\rangle _{s}.
 \end{equation}
 
 \end_inset
@@ -607,7 +607,7 @@ This measures the correlation of the density field at
  Substituting the definition of Fourier transform, we get:
 \begin_inset Formula 
 \begin{equation}
-C(\mathbf{r},\mathbf{r}')=\frac{1}{V}\sum_{\mathbf{q},\mathbf{q}'}\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle e^{i\mathbf{q}\cdot\mathbf{r}}e^{i\mathbf{q}'\cdot\mathbf{r}'}.
+C(\mathbf{r},\mathbf{r}')=\frac{1}{V}\sum_{\mathbf{q},\mathbf{q}'}\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle _{s}e^{i\mathbf{q}\cdot\mathbf{r}}e^{i\mathbf{q}'\cdot\mathbf{r}'}.
 \end{equation}
 
 \end_inset
@@ -630,13 +630,13 @@ i.e.
 
 .
  Thus, 
-\begin_inset Formula $\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle $
+\begin_inset Formula $\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle _{s}$
 \end_inset
 
  must have the following form:
 \begin_inset Formula 
 \begin{equation}
-\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle =\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle \delta_{\mathbf{q},-\mathbf{q}'}
+\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle _{s}=\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle _{s}\delta_{\mathbf{q},-\mathbf{q}'}
 \end{equation}
 
 \end_inset
@@ -644,7 +644,7 @@ i.e.
 so that
 \begin_inset Formula 
 \begin{equation}
-C(\mathbf{r}-\mathbf{r}')=\frac{1}{V}\sum_{\mathbf{q}}\underbrace{\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle }_{S(\mathbf{q})}e^{i\mathbf{q}\cdot(\mathbf{r}-\mathbf{r}')}
+C(\mathbf{r}-\mathbf{r}')=\frac{1}{V}\sum_{\mathbf{q}}\underbrace{\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle _{s}}_{S(\mathbf{q})}e^{i\mathbf{q}\cdot(\mathbf{r}-\mathbf{r}')}
 \end{equation}
 
 \end_inset
@@ -655,7 +655,7 @@ is a function of
 
  only.
  
-\begin_inset Formula $S(\mathbf{q})=\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle $
+\begin_inset Formula $S(\mathbf{q})=\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle _{s}$
 \end_inset
 
 , which is the Fourier transform of 
@@ -688,7 +688,7 @@ Now consider:
 Thus we obtain the formula for the structure factor from the partition function:
 \begin_inset Formula 
 \begin{equation}
-S(\mathbf{q})=\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle =-2\frac{\partial\ln\mathcal{Z}}{\partial G(\mathbf{q})}.
+S(\mathbf{q})=\left\langle |\delta\phi_{\mathbf{q}}|^{2}\right\rangle _{s}=-2\frac{\partial\ln\mathcal{Z}}{\partial G(\mathbf{q})}.
 \end{equation}
 
 \end_inset
@@ -1063,6 +1063,74 @@ In Numpy,
 
 \end_layout
 
+\begin_layout Standard
+In simulation, it might be useful to track some macroscopic quantity to
+ check whether the simulation has reached a steady state or not.
+ For instance, we may measure the global average of the fluctuations squared:
+\begin_inset Formula 
+\[
+A(t)=\frac{1}{V}\int_{V}\delta\phi(\mathbf{r},t)^{2}\,d\mathbf{r}
+\]
+
+\end_inset
+
+In steady state, 
+\begin_inset Formula $\left\langle A\right\rangle _{s}$
+\end_inset
+
+ is given by:
+\begin_inset Formula 
+\[
+\left\langle A\right\rangle _{s}=\frac{1}{V}\int_{V}\left\langle \delta\phi(\mathbf{r})\right\rangle \,d\mathbf{r}
+\]
+
+\end_inset
+
+Using the definition of Fourier transform, we get:
+\begin_inset Formula 
+\begin{align*}
+\left\langle A\right\rangle _{s} & =\frac{1}{V}\int_{V}\sum_{\mathbf{q},\mathbf{q}'}\left\langle \delta\phi_{\mathbf{q}}\delta\phi_{\mathbf{q}'}\right\rangle e^{i(\mathbf{q}+\mathbf{q}')\cdot\mathbf{r}}\,d\mathbf{r}\\
+ & =\sum_{\mathbf{q}}S(q)
+\end{align*}
+
+\end_inset
+
+Now we put the expression for the structure factor:
+\begin_inset Formula 
+\begin{align*}
+\left\langle A\right\rangle _{s} & =\sum_{\mathbf{q}}\frac{T}{a+3b\phi_{0}^{2}+\kappa q^{2}}\\
+ & \simeq\frac{V}{(2\pi)^{d}}\int_{0}^{q_{\text{max}}}dq\,\Omega_{d}q^{d-1}\frac{T}{a+3b\phi_{0}^{2}+\kappa q^{2}}
+\end{align*}
+
+\end_inset
+
+In particular, for 
+\begin_inset Formula $d=2$
+\end_inset
+
+ case,
+\begin_inset Formula 
+\[
+\left\langle A\right\rangle _{s}=\frac{L^{2}}{2\pi}\int_{0}^{q_{\text{max}}}dq\,\frac{Tq}{a+3b\phi_{0}^{2}+\kappa q^{2}}
+\]
+
+\end_inset
+
+Taking the limit 
+\begin_inset Formula $q_{\text{max}}\rightarrow\infty$
+\end_inset
+
+ as an approximation, we get:
+\begin_inset Formula 
+\[
+\left\langle A\right\rangle _{s}=\frac{L^{2}}{2\pi}
+\]
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Using fast Fourier transform in Numpy
 \end_layout
@@ -1148,7 +1216,7 @@ The equation we are solving is:
 Taking Fourier transform, we get:
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial\phi_{\mathbf{q}}}{\partial t}=-\left(Maq^{2}+M\kappa q^{4}\right)\phi_{\mathbf{q}}-Mbq^{2}\mathcal{F}[\phi^{3}]_{\mathbf{q}}+\sqrt{2MT}\mathcal{F}[\nabla\cdot\boldsymbol{\Lambda}]_{\mathbf{q}}.
+\frac{\partial\phi_{\mathbf{q}}}{\partial t}=-\left(Maq^{2}+M\kappa q^{4}\right)\phi_{\mathbf{q}}-Mbq^{2}\mathcal{F}[\phi^{3}]_{\mathbf{q}}+\sqrt{2MT}i\mathbf{q}\cdot\boldsymbol{\Lambda}_{\mathbf{q}}.
 \end{equation}
 
 \end_inset
@@ -1158,7 +1226,7 @@ The algorithm will be:
 \[
 \begin{array}{c|c|c}
 \text{Real space} & \longleftrightarrow & \text{Fourier space}\\
-\hline \text{calculate }\phi\text{, }\phi^{3}\text{ and }\nabla\cdot\boldsymbol{\Lambda} & \underset{\text{forward FFT}}{\longrightarrow} & \phi_{\mathbf{q}}\text{, }\mathcal{F}[\phi^{3}]_{\mathbf{q}}\text{ and }\mathcal{F}[\nabla\cdot\boldsymbol{\Lambda}]_{\mathbf{q}}\\
+\hline \text{calculate }\phi\text{, }\phi^{3}\text{ and }\boldsymbol{\Lambda} & \underset{\text{forward FFT}}{\longrightarrow} & \phi_{\mathbf{q}}\text{, }\mathcal{F}[\phi^{3}]_{\mathbf{q}}\text{ and }\boldsymbol{\Lambda}_{\mathbf{q}}\\
  &  & \text{update }\downarrow\text{ timestep}\\
 \text{get }\phi\text{ at the next timestep} & \underset{\text{inverse FFT}}{\longleftarrow} & \phi_{\mathbf{q}}\text{ at the next timestep}
 \end{array}
